@@ -10,7 +10,27 @@ export default function RootLayout() {
         screenOptions={{
           headerShown: false,
         }}
-      />
+      >
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="create-event"
+          options={{
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="edit-recipe"
+          options={{
+            presentation: 'modal',
+          }}
+        />
+        <Stack.Screen
+          name="edit-ingredient"
+          options={{
+            presentation: 'modal',
+          }}
+        />
+      </Stack>
     </QueryClientProvider>
   )
 }

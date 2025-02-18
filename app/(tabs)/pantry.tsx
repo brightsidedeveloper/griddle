@@ -1,7 +1,10 @@
-import { ingredientOpts } from '@/api/queries/ingredientOpts'
+import { activeIngredientAtom } from '@/api/atoms/ingredientAtoms'
+import { ingredientsOpts } from '@/api/queries/ingredientOpts'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { useRouter } from 'expo-router'
+import { useSetAtom } from 'jotai'
 import { Suspense } from 'react'
-import { Text, ActivityIndicator, View } from 'react-native'
+import { Text, ActivityIndicator, TouchableOpacity } from 'react-native'
 
 export default function index() {
   return (
@@ -12,11 +15,20 @@ export default function index() {
 }
 
 function Pantry() {
-  const { data: ingredients } = useSuspenseQuery(ingredientOpts)
+  const r = useRouter()
+  const setIngredient = useSetAtom(activeIngredientAtom)
+  const { data: ingredients } = useSuspenseQuery(ingredientsOpts)
 
   return ingredients.map(({ id, name }) => (
-    <View key={id}>
+    <TouchableOpacity
+      key={id}
+      style={{ height: 50, borderColor: 'black', borderBottomWidth: 1 }}
+      onPress={() => {
+        setIngredient(id)
+        r.push('/edit-ingredient')
+      }}
+    >
       <Text>{name}</Text>
-    </View>
+    </TouchableOpacity>
   ))
 }
